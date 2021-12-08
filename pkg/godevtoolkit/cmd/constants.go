@@ -7,11 +7,29 @@ const (
 )
 
 const (
-	TraceCmdName         = "trace"
-	TraceCmdUsage        = ""
-	TraceCmdDescription  = ""
-	TraceDescribeCmdName = "describe"
-	TraceListCmdName     = "list"
+	ResourceTrace   = "trace"
+	ResourceCompute = "compute"
+)
+
+const (
+	ActionDescribe = "describe"
+	ActionGet      = "get"
+	ActionList     = "list"
+	ActionReset    = "reset"
+)
+
+const (
+	TraceCmdName          = ResourceTrace
+	TraceCmdUsage         = ""
+	TraceCmdDescription   = ""
+	ActionDescribeCmdName = ActionDescribe
+	ActionListCmdName     = ActionList
+	ActionGetCmdName      = ActionGet
+	ActionResetCmdName    = ActionReset
+
+	ComputeCmdName        = ResourceCompute
+	ComputeCmdUsage       = ""
+	ComputeCmdDescription = ""
 )
 
 const (
@@ -21,4 +39,5 @@ const (
 	FlagNameTraceMethod      = "method"
 	FlagNameTraceStartTime   = "start-time"
 	FlagNameTraceServiceName = "service-name"
+	FlagNameComputeZone      = "gcp-compute-zone"
 )

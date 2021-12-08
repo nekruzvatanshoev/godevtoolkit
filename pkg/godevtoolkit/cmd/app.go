@@ -7,6 +7,7 @@ func CreateApp() cli.App {
 		Name: AppName,
 		Commands: []*cli.Command{
 			traceCmd(),
+			computeCmd(),
 		},
 		Description: AppDescription,
 		Usage:       AppDescription,

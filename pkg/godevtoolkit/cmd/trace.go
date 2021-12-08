@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -26,7 +25,7 @@ func traceCmd() *cli.Command {
 
 func traceDescribeCmd() *cli.Command {
 	return &cli.Command{
-		Name:    TraceDescribeCmdName,
+		Name:    ActionDescribeCmdName,
 		Aliases: []string{"desc"},
 		Action:  traceDescribe(context.Background()),
 	}
@@ -51,7 +50,7 @@ func traceDescribe(ctx context.Context) cli.ActionFunc {
 
 func traceListmd() *cli.Command {
 	return &cli.Command{
-		Name:   TraceListCmdName,
+		Name:   ActionListCmdName,
 		Action: traceList(context.Background()),
 		Flags: []cli.Flag{
 			&cli.StringFlag{
@@ -82,10 +81,10 @@ func traceListmd() *cli.Command {
 			},
 		},
 		UsageText: `
-		gcpdevtools trace list -s <SpanName> -m <Method> -l <Latency> -st <Start time> -sn <Service Name>
+		godevtoolkit trace list -s <SpanName> -m <Method> -l <Latency> -st <Start time> -sn <Service Name>
 		
 		Examples:
-				gcpdevtools trace list -s Span.get_entity -m GET, -l 60s -st 6h
+			godevtoolkit trace list -s Span.get_entity -m GET, -l 60s -st 6h
 		`,
 	}
 }
@@ -108,14 +107,4 @@ func traceList(ctx context.Context) cli.ActionFunc {
 
 		return nil
 	})
-}
-
-func AsJSON(i interface{}) string {
-
-	out, err := json.MarshalIndent(i, "", "   ")
-	if err != nil {
-		return fmt.Sprintf("%#v", i)
-	}
-	return string(out)
-
 }
