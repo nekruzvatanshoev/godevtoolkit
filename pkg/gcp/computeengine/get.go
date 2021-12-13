@@ -10,8 +10,13 @@ import (
 func GetInstance(projectID, zone, instanceID string) (*compute.Instance, error) {
 	ctx := context.Background()
 
-	service := compute.NewInstancesService(&compute.Service{})
-	instance, err := service.Get(projectID, zone, instanceID).Context(ctx).Do()
+	service, err := compute.NewService(ctx)
+	if err != nil {
+		return nil, err
+	}
+	instanceService := compute.NewInstancesService(service)
+	instanceCall := instanceService.Get(projectID, zone, instanceID)
+	instance, err := instanceCall.Do()
 	if err != nil {
 		return nil, err
 	}

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 
 	cloudTrceClient "github.com/nekruzvatanshoev/godevtoolkit/pkg/gcp/cloudtrace"
 	"github.com/urfave/cli/v2"
@@ -34,7 +35,10 @@ func traceDescribeCmd() *cli.Command {
 func traceDescribe(ctx context.Context) cli.ActionFunc {
 	return cli.ActionFunc(func(c *cli.Context) error {
 		traceId := c.Args().First()
-		projectId := c.String(FlagNameGCPProjectId)
+		projectId := os.Getenv("GCP_PROJECT_ID")
+		if projectId == "" {
+			log.Fatal(errors.New("GCP_PROJECT_ID needs to be specified"))
+		}
 		if traceId == "" {
 			log.Fatal(errors.New("traceId needs to be specified"))
 		}
@@ -91,7 +95,10 @@ func traceListmd() *cli.Command {
 
 func traceList(ctx context.Context) cli.ActionFunc {
 	return cli.ActionFunc(func(c *cli.Context) error {
-		projectId := c.String(FlagNameGCPProjectId)
+		projectId := os.Getenv("GCP_PROJECT_ID")
+		if projectId == "" {
+			log.Fatal(errors.New("GCP_PROJECT_ID needs to be specified"))
+		}
 		spanName := c.String(FlagNameTraceSpanName)
 		latency := c.String(FlagNameTraceLatency)
 		method := c.String(FlagNameTraceMethod)

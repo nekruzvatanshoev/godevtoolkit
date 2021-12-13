@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 
 	computeClient "github.com/nekruzvatanshoev/godevtoolkit/pkg/gcp/computeengine"
 	"github.com/urfave/cli/v2"
@@ -35,10 +36,16 @@ func computeDescribeCmd() *cli.Command {
 func computeDescribe(ctx context.Context) cli.ActionFunc {
 	return cli.ActionFunc(func(c *cli.Context) error {
 		instanceId := c.Args().First()
-		zone := c.String(FlagNameComputeZone)
-		projectId := c.String(FlagNameGCPProjectId)
+		zone := c.Args().Get(1)
+		projectId := os.Getenv("GCP_PROJECT_ID")
 		if instanceId == "" {
 			log.Fatal(errors.New("instanceId needs to be specified"))
+		}
+		if projectId == "" {
+			log.Fatal(errors.New("GCP_PROJECT_ID needs to be specified"))
+		}
+		if zone == "" {
+			log.Fatal(errors.New("zone needs to be specified"))
 		}
 		instance, err := computeClient.GetInstance(projectId, zone, instanceId)
 		if err != nil {
@@ -60,8 +67,14 @@ func computeListCmd() *cli.Command {
 
 func computeList(ctx context.Context) cli.ActionFunc {
 	return cli.ActionFunc(func(c *cli.Context) error {
-		zone := c.String(FlagNameComputeZone)
-		projectId := c.String(FlagNameGCPProjectId)
+		zone := c.Args().First()
+		projectId := os.Getenv("GCP_PROJECT_ID")
+		if projectId == "" {
+			log.Fatal(errors.New("GCP_PROJECT_ID needs to be specified"))
+		}
+		if zone == "" {
+			log.Fatal(errors.New("zone needs to be specified"))
+		}
 
 		instances, err := computeClient.ListInstances(projectId, zone)
 		if err != nil {
@@ -84,10 +97,16 @@ func computeResetCmd() *cli.Command {
 func computeReset(ctx context.Context) cli.ActionFunc {
 	return cli.ActionFunc(func(c *cli.Context) error {
 		instanceId := c.Args().First()
-		zone := c.String(FlagNameComputeZone)
-		projectId := c.String(FlagNameGCPProjectId)
+		zone := c.Args().Get(1)
+		projectId := os.Getenv("GCP_PROJECT_ID")
 		if instanceId == "" {
 			log.Fatal(errors.New("instanceId needs to be specified"))
+		}
+		if projectId == "" {
+			log.Fatal(errors.New("GCP_PROJECT_ID needs to be specified"))
+		}
+		if zone == "" {
+			log.Fatal(errors.New("zone needs to be specified"))
 		}
 		operation, err := computeClient.ResetInstance(projectId, zone, instanceId)
 		if err != nil {

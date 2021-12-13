@@ -14,8 +14,7 @@ func CreateApp() cli.App {
 		Version:     AppVersion,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:     FlagNameGCPProjectId,
-				Required: true,
+				Name: FlagNameGCPProjectId,
 			},
 		},
 	}
